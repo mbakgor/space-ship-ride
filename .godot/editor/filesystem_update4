@@ -1,0 +1,12 @@
+res://player.tscn
+res://Level/level.tscn
+res://Level/level_2.tscn
+res://Level/level_3.tscn
+res://Level/level_4.tscn
+res://Level/level_5.tscn
+res://laser_beam.tscn
+res://moving_hazard.tscn
+res://Particles/booster_particles.tscn
+res://Particles/explosion_particles.tscn
+res://Background.tscn
+res://Laser.gd

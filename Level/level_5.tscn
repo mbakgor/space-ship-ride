@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://dxs8aqsjnvjc2"]
+
+[ext_resource type="Script" path="res://LandingPad.gd" id="1_dctap"]
+[ext_resource type="PackedScene" uid="uid://t43luswmo0p4" path="res://player.tscn" id="2_f6lmv"]
+[ext_resource type="PackedScene" uid="uid://chmqc1pae4fu2" path="res://moving_hazard.tscn" id="3_tdody"]
+[ext_resource type="PackedScene" uid="uid://mejro8l2230v" path="res://Background.tscn" id="4_c0mtq"]
+[ext_resource type="PackedScene" uid="uid://cn8caqkyxhvgd" path="res://laser_beam.tscn" id="5_yg5pv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkg7i"]
+albedo_color = Color(0.321937, 0.468345, 0.467494, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6ieh"]
+albedo_color = Color(0.67451, 0.607843, 0.113725, 1)
+
+[node name="Level" type="Node3D"]
+
+[node name="LaunchPad" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50845, 0, 0)
+use_collision = true
+size = Vector3(5, 1, 3)
+material = SubResource("StandardMaterial3D_tkg7i")
+
+[node name="LandingPad" type="CSGBox3D" parent="." groups=["Goal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.82823, -2.38419e-07, -0.00632668)
+use_collision = true
+size = Vector3(5, 1, 3)
+material = SubResource("StandardMaterial3D_k6ieh")
+script = ExtResource("1_dctap")
+file_path = "res://Level/level.tscn"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.990268, -0.139173, 0, 0.139173, 0.990268, 0, 3.5, 12)
+
+[node name="Player" parent="." instance=ExtResource("2_f6lmv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50845, 1.58707, 0)
+
+[node name="Moving Hazard" parent="." groups=["Hazard"] instance=ExtResource("3_tdody")]
+destination = Vector3(0, 2, 0)
+duration = 3.0
+
+[node name="Floor" parent="." instance=ExtResource("4_c0mtq")]
+
+[node name="Laser Beam" parent="." groups=["Hazard"] instance=ExtResource("5_yg5pv")]
+transform = Transform3D(-0.14956, 0.559134, 0.815476, -0.208605, 0.788344, -0.57879, -0.966497, -0.256677, -0.00126644, -11.5314, 9.33829, 0)

@@ -1,0 +1,114 @@
+[gd_scene load_steps=11 format=3 uid="uid://mejro8l2230v"]
+
+[ext_resource type="Texture2D" uid="uid://cios0rlxu2e7g" path="res://Assets/slab_tiles_rough_1k.jpg" id="1_uslgf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vvt44"]
+albedo_texture = ExtResource("1_uslgf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m5ex6"]
+albedo_color = Color(0.18359, 0.18359, 0.18359, 1)
+
+[sub_resource type="Shader" id="Shader_jwume"]
+code = "
+// NOTE: Shader automatically converted from Godot Engine 4.2.2.stable.mono's PanoramaSkyMaterial.
+
+shader_type sky;
+
+uniform sampler2D source_panorama : filter_linear, source_color, hint_default_black;
+
+void sky() {
+	COLOR = texture(source_panorama, SKY_COORDS).rgb;
+}
+"
+
+[sub_resource type="Gradient" id="Gradient_wtwts"]
+offsets = PackedFloat32Array(0, 0.979592, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.183673, 0.183673, 0.183673, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tclfs"]
+noise_type = 3
+seed = 3
+frequency = 0.0223
+fractal_octaves = 3
+fractal_lacunarity = 3.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_u5kbq"]
+in_3d_space = true
+seamless = true
+color_ramp = SubResource("Gradient_wtwts")
+noise = SubResource("FastNoiseLite_tclfs")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fkpic"]
+shader = SubResource("Shader_jwume")
+shader_parameter/source_panorama = SubResource("NoiseTexture2D_u5kbq")
+
+[sub_resource type="Sky" id="Sky_rqr62"]
+sky_material = SubResource("ShaderMaterial_fkpic")
+
+[sub_resource type="Environment" id="Environment_vngup"]
+background_mode = 2
+background_color = Color(0.389287, 0.389287, 0.389287, 1)
+sky = SubResource("Sky_rqr62")
+ambient_light_source = 3
+tonemap_mode = 2
+glow_intensity = 2.0
+glow_strength = 2.0
+glow_bloom = 1.0
+adjustment_brightness = 1.93
+
+[node name="Floor" type="CSGBox3D" groups=["Hazard"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+material_override = SubResource("StandardMaterial3D_vvt44")
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_m5ex6")
+
+[node name="LeftWall_1" type="CSGBox3D" parent="."]
+transform = Transform3D(0.82658, 0.562819, 0, -0.562819, 0.82658, 0, 0, 0, 1, -14.5734, 7.90211, 0.0085516)
+size = Vector3(5, 10, 5)
+
+[node name="LeftWall_2" type="CSGBox3D" parent="."]
+transform = Transform3D(0.82658, 0.562819, 0, -0.562819, 0.82658, 0, 0, 0, 1, -14.5734, 13.5614, 0.0085516)
+size = Vector3(5, 10, 5)
+
+[node name="Ceiling_1" type="CSGBox3D" parent="."]
+transform = Transform3D(0.304831, 0.952406, 0, -0.952406, 0.304831, 0, 0, 0, 1, -11.2237, 18.7117, 0.0085516)
+size = Vector3(5, 10, 5)
+
+[node name="Ceiling_2" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.017051, 0.999855, 0, -0.999855, -0.017051, 0, 0, 0, 1, -2.464, 18.7117, 0.0085516)
+size = Vector3(5, 10, 5)
+
+[node name="Ceiling_3" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.017051, 0.999855, 0, -0.999855, -0.017051, 0, 0, 0, 1, 7.5303, 18.7117, 0.0085516)
+size = Vector3(5, 10, 5)
+
+[node name="RightWall_2" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.815986, 0.578071, 0, -0.578071, -0.815986, 0, 0, 0, 1, 13.3015, 15.6395, 0.0085516)
+size = Vector3(5, 10, 5)
+
+[node name="RightWall_1" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.972849, 0.231442, 0, -0.231442, -0.972849, 0, 0, 0, 1, 13.3015, 9.02346, 0.0085516)
+size = Vector3(5, 10, 5)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.984807, -0.111619, 0.133022, 0, 0.766045, 0.642787, -0.173648, -0.633022, 0.754406, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vngup")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.016, 0)
+omni_range = 12.0
+omni_attenuation = 0.5
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.06635, 10.016, 0)
+omni_range = 12.0
+omni_attenuation = 0.5
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.42864, 10.016, 0)
+omni_range = 12.0
+omni_attenuation = 0.5

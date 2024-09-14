@@ -1,0 +1,12 @@
+MeshInstance3D
+RayCast3D
+StaticBody3D
+Node3D
+CollisionShape3D
+AnimatableBody3D
+OmniLight3D
+CSGBox3D
+AudioStreamPlayer3D
+AudioStreamPlayer
+RigidBody3D
+Camera3D

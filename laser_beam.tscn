@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cn8caqkyxhvgd"]
+
+[ext_resource type="Script" path="res://Laser.gd" id="1_0khxg"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ccnlk"]
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_e05en"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_15h5b"]
+flip_faces = true
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_njmdd"]
+transparency = 1
+albedo_color = Color(0.866667, 0.0745098, 0, 0.839216)
+emission_enabled = true
+emission = Color(0.866667, 0.0745098, 0, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_3vpdh"]
+points = PackedVector3Array(-0.442718, 0.1, -0.0829444, 0.442702, 0.1, 0.0829444, 0.428835, 0.1, 0.138241, -0.147311, -0.1, -0.456971, -0.0883898, -0.1, 0.471748, 0.471733, -0.1, -0.0883834, 0.179746, 0.1, -0.414982, -0.138246, 0.1, 0.42885, -0.456972, -0.1, 0.147398, 0.294691, -0.1, 0.383272, -0.235057, 0.1, -0.387334, -0.412734, -0.1, -0.250558, 0.250547, -0.1, -0.412733, 0.179746, 0.1, 0.414982, 0.38732, 0.1, -0.235139, -0.359601, 0.1, 0.276655, -0.294799, -0.1, 0.383272, 0.44218, -0.1, 0.191636, 0.359673, 0.1, 0.276568, 0.0829354, 0.1, -0.442717, 0.0883743, -0.1, 0.471748, 0.0883743, -0.1, -0.471748, 0.383258, -0.1, -0.294704, -0.471748, -0.1, -0.0883834, -0.442718, 0.1, 0.0829444, -0.359601, 0.1, -0.276655, -0.294799, -0.1, -0.383272, -0.0829509, 0.1, -0.442717, 0.0829354, 0.1, 0.442717, 0.276556, 0.1, -0.359686, 0.442702, 0.1, -0.0829444, -0.383181, -0.1, 0.294796)
+
+[node name="Laser Beam" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.45766, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_ccnlk")
+
+[node name="Head" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.198145, 0)
+mesh = SubResource("CylinderMesh_e05en")
+
+[node name="Laser" type="RayCast3D" parent="MeshInstance3D/Head" groups=["Hazard"]]
+target_position = Vector3(0, 30, 0)
+hit_from_inside = true
+script = ExtResource("1_0khxg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D/Head/Laser" groups=["Hazard"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.110337, 0)
+mesh = SubResource("CylinderMesh_15h5b")
+surface_material_override/0 = SubResource("StandardMaterial3D_njmdd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_3vpdh")
